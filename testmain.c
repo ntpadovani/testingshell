@@ -1,11 +1,14 @@
 #include "shell.h"
 
 
-int main(void)
+int main(int argc, char **argv, char **env)
 {
-char string1[40] = "/usr/bin:", string2[] = "ls", *allcon;
+char string2[] = "ls", *allcon, *path;
 
-allcon = chkcmddir(string1, string2);;
+(void) argc;
+(void) argv;
+path = _getpath(env);
+allcon = chkcmddir(path, string2);;
 
 printf("%s:\n", allcon);
 

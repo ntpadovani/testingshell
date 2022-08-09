@@ -12,14 +12,14 @@
 
 int main(int argc, char **argv, char **env)
 {
-	char *buffer = NULL, **commandinput = NULL, *path = NULL;
+	char *buffer = NULL, **commandinput = NULL;
 	size_t size = 0;
-	int usrinput = 1, idx;
+	int usrinput = 1;
 
 	(void) argc;
 	(void) argv;
 
-	_printf("$: ");
+	printf("$: ");
 	while ((usrinput = getline(&buffer, &size, stdin)) > 0)
 	{	
 		if (_strcmp(buffer, "exit\n") == 0)
@@ -30,16 +30,15 @@ int main(int argc, char **argv, char **env)
 		if (_strcmp(buffer, "env\n") == 0)
 		{
 			_printenv(env);
-			_printf("$: ");
+			printf("$: ");
 			continue;
 		}
 		commandinput = separate(buffer, " \n"); /*tokenize*/
-		spawn_process(commandinput, result);
+		spawn_process(commandinput, env);
 		size = 0;
 		buffer = NULL;
 		printf("$: ");
 	}
-	printf("after the loop-\n");
 	free(buffer);
 	return (0);
 } /*end*/

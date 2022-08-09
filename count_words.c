@@ -21,9 +21,9 @@ int count_words(char *string)
 		{
 			idx++;
 		}
-		while (string[idx] != ' ' && string[idx] != '\0')
+		while (string[idx] != ' ' && string[idx] != ':' && string[idx] != '\0')
 		{
-			if (string[idx + 1] == ' ' || string[idx + 1] == '\0')
+			if (string[idx + 1] == ' ' || string[idx + 1] == ':' || string[idx + 1] == '\0')
 			{
 				count++;
 			}

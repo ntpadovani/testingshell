@@ -7,14 +7,18 @@
  * Return: 0 if process executed succesfully,
  */
 
-int spawn_process(char *cmd[], char *s)
+int spawn_process(char **cmd, char **env)
 {
-	char *result, *path;
+	char *path;
 	pid_t ppid;
-	int status = 0, wstatus;
+	int wstatus;
+	struct stat cmdstr;
 
-	path = _getpath(env);
-	result = chkcmddir(path, s);
+	if(stat(cmd[0], &cmdstr) == -1)
+	{		
+		path = _getpath(env);
+		cmd[0] = chkcmddir(path, cmd[0]);
+	}
 	ppid = fork();
 	if (ppid == -1)
 	{
@@ -23,17 +27,15 @@ int spawn_process(char *cmd[], char *s)
 
 	if (ppid == 0)
 	{
-		if (execve(s, cmd, NULL))
+		if (execve(cmd[0], cmd, env))
 		{
 			perror("Execve");
 			exit(EXIT_FAILURE);
-			/*status = 1;*/
-			/*return (status);*/
 		}
 	}
 	if (ppid > 0)
 	{
 		wait(&wstatus);
 	}
-	return (status);
+	return (0);
 }

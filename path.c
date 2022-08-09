@@ -17,7 +17,6 @@ char *_getpath(char **envp)
 		grab = separate(envp[i], "=");
 		if (strcmp(grab[0], "PATH") == 0)
 		{
-			_printf("(getpath)after grab-%s\n", grab[1]);
 			return (grab[1]);
 		}
 	}

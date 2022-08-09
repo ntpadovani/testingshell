@@ -32,15 +32,10 @@ typedef struct type
 char **separate(char *string,const char *s);
 int count_words(char *string);
 int _strlen(char *s);
-int _printf(const char *format, ...);
-int print_char(va_list prt);
-int print_string(va_list ptr);
-int print_number(va_list ptr);
-int print_int(int n); 
-int spawn_process(char *cmd[], char *s);
-char *_strncat(char *dest, char *src, int n);
 char *chkcmddir(char *strone, char *strtwo);
 char *_getpath(char **envp);
 int _strcmp(char *s1, char *s2);
 int _printenv(char **env);
+void arrayfree(char **string);
+int spawn_process(char **cmd, char **env);
 #endif
