@@ -14,6 +14,7 @@ char **separate(char *string, const char *s)
 	char *token = NULL, **darray = NULL;
 	int size = 0, idx = 0;
 	size = count_words(string);
+	printf("size-%d-\n", size);
 	darray = malloc(sizeof(char *) * size + 1);
 	if (darray == NULL)
 	{

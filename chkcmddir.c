@@ -13,7 +13,7 @@ char *chkcmddir(char *strone, char *strtwo)
 {
 	int result = 0;
 	int idx = 0;
-	char *constr = NULL, **tokenz = NULL, *slashcon = NULL, *cln = ":", slash[] = "/";
+	char *constr = NULL, **tokenz = NULL, *slashcon = NULL, *cln = ":", slash[100] = "/";
 	struct stat cmdstr;
 
 	tokenz = separate(strone, cln);
