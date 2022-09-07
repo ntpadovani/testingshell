@@ -9,15 +9,18 @@
 
 int spawn_process(char **cmd, char **env)
 {
-	char *path;
+	char *path = NULL;
 	pid_t ppid;
-	int wstatus;
+	int wstatus = 0;
 	struct stat cmdstr;
+
+	
 
 	if(stat(cmd[0], &cmdstr) == -1)
 	{		
 		path = _getpath(env);
 		cmd[0] = chkcmddir(path, cmd[0]);
+
 	}
 	ppid = fork();
 	if (ppid == -1)
@@ -27,7 +30,7 @@ int spawn_process(char **cmd, char **env)
 
 	if (ppid == 0)
 	{
-		if (execve(cmd[0], cmd, env))
+		if (execve(cmd[0], cmd, env) == -1)
 		{
 			perror("Execve");
 			exit(EXIT_FAILURE);
@@ -36,6 +39,11 @@ int spawn_process(char **cmd, char **env)
 	if (ppid > 0)
 	{
 		wait(&wstatus);
+		arrayfree(cmd);
+		cmd = NULL;
+		free(path);
+		path = NULL;
 	}
-	return (0);
+		
+		return (0);
 }

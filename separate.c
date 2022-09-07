@@ -11,27 +11,31 @@
 
 char **separate(char *string, const char *s)
 {
-	char *token = NULL, **darray = NULL;
+	char *tokenized = NULL, **darray = NULL;
 	int size = 0, idx = 0;
+
 	size = count_words(string);
-	printf("size-%d-\n", size);
-	darray = malloc(sizeof(char *) * size + 1);
+	printf("The tokens size is:%d\n", size);
+	if (size == 0)
+	{
+		return (darray);
+	}
+	darray = malloc(sizeof(char *) * (size + 1));
 	if (darray == NULL)
 	{
-		return NULL;
+		fprintf(stderr, "Error: malloc failed\n");
+		exit(EXIT_FAILURE);
 	}
-	token = strtok(string, s);
-	while (token != NULL)
+
+	tokenized = strtok(string, s);
+	while (tokenized != NULL)
 	{
-		darray[idx] = malloc(sizeof(char) * _strlen(token) + 1);
-		if (darray[idx] == NULL)
-		{
-			arrayfree(darray);
-			return (NULL);
-		}
-		darray[idx] = token;
+		darray[idx] = malloc(sizeof(char) * (strlen(tokenized) + 20));
+		strcpy(darray[idx], tokenized);
 		idx++;
-		token = strtok(NULL, s);
+		tokenized = NULL;
+		tokenized = strtok(NULL, s);
 	}
+	darray[idx] = NULL;
 	return (darray);
-} /*end bracket*/
+}

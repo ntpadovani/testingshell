@@ -25,20 +25,30 @@ int main(int argc, char **argv, char **env)
 		if (_strcmp(buffer, "exit\n") == 0)
 		{
 			free(buffer);
+			buffer = NULL;
 			exit(0);
 		}
 		if (_strcmp(buffer, "env\n") == 0)
 		{
 			_printenv(env);
+			free(buffer);
+			buffer = NULL;
 			printf("$: ");
 			continue;
 		}
 		commandinput = separate(buffer, " \n"); /*tokenize*/
 		spawn_process(commandinput, env);
 		size = 0;
+		free(buffer);
 		buffer = NULL;
+		/*arrayfree(commandinput);*/
+		commandinput = NULL;
 		printf("$: ");
 	}
+
+	arrayfree(commandinput);
+	commandinput = NULL;
 	free(buffer);
+	buffer = NULL;
 	return (0);
 } /*end*/

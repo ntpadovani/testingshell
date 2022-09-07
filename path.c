@@ -9,16 +9,23 @@
 
 char *_getpath(char **envp)
 {
-	int i = 0;
-	char **grab;
+	int idx;
+	char **grab = NULL, *grabcopy = NULL;
 
-	for (; envp[i] != NULL ; i++)
+	for (idx = 0; envp[idx] != NULL ; idx++)
 	{
-		grab = separate(envp[i], "=");
-		if (strcmp(grab[0], "PATH") == 0)
+		
+		if (strncmp(envp[idx], "PATH", 4) == 0)
 		{
+			printf("----------\nThis is ENVP:%s\n----------\n", envp[idx]);
+			grabcopy = strdup(envp[idx]);
+			grab = separate(grabcopy, "=");
+			printf("----------\nThis is GRAB[1]:%s\n---------\n", grab[1]);
+			free(grabcopy);
+			free(grab[0]);
 			return (grab[1]);
 		}
+	
 	}
 	return (NULL);
 }

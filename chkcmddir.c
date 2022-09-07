@@ -28,5 +28,7 @@ char *chkcmddir(char *strone, char *strtwo)
 		}
 		idx++;
 	}
+	arrayfree(tokenz);
+	tokenz = NULL;
 	return NULL;
 }
