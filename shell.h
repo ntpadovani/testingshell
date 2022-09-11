@@ -38,5 +38,6 @@ char *_getpath(char **envp);
 int _strcmp(char *s1, char *s2);
 int _printenv(char **env);
 void arrayfree(char **string);
-int spawn_process(char **cmd, char **env);
+int spawn_process(char **CmdInput, char **env, char **argv, char *Input, int LineCount);
+void errors(char **argv, char *Input, int LineCount);
 #endif

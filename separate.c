@@ -4,38 +4,37 @@
  *separate - A function that splits a
  *            string and returns an array
  *            of each word of the string.
- *@string: The string containing the words.
- *@s: The delimiter.
+ *@input: The string containing the words.
+ *@delimiter: The delimiter used to tokenize.
  *Return:  An array for each word found inside the string.
  */
 
-char **separate(char *string, const char *s)
+char **separate(char *Input, const char *Delimiter)
 {
-	char *tokenized = NULL, **darray = NULL;
-	int size = 0, idx = 0;
+	char *TokenizedInput = NULL, **TokenArray = NULL;
+	int TokenSize = 0, idx = 0;
 
-	size = count_words(string);
-	printf("The tokens size is:%d\n", size);
-	if (size == 0)
+	TokenSize = count_words(Input); /*start counting tokens found*/
+	/*printf("The tokens size is:%d\n", tokensize); used to debug*/
+	if (TokenSize == 0) /*if there are no tokens*/
 	{
-		return (darray);
+		return (TokenArray);
 	}
-	darray = malloc(sizeof(char *) * (size + 1));
-	if (darray == NULL)
+	TokenArray = malloc(sizeof(char *) * (TokenSize + 1)); /*allocation of mem for the whole array*/
+	if (TokenArray == NULL) /*if the process of allocation were to fail*/
 	{
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-
-	tokenized = strtok(string, s);
-	while (tokenized != NULL)
+	TokenizedInput = strtok(Input, Delimiter); /*tokenize process*/
+	while (TokenizedInput != NULL)
 	{
-		darray[idx] = malloc(sizeof(char) * (strlen(tokenized) + 20));
-		strcpy(darray[idx], tokenized);
+		TokenArray[idx] = malloc(sizeof(char) * (strlen(TokenizedInput) + 20)); /*allocation of mem for each index array*/
+		strcpy(TokenArray[idx], TokenizedInput); /*copy of every tokenizedinput to its own index array*/
 		idx++;
-		tokenized = NULL;
-		tokenized = strtok(NULL, s);
+		TokenizedInput = NULL; /*FIFTH FREE*/
+		TokenizedInput = strtok(NULL, Delimiter);
 	}
-	darray[idx] = NULL;
-	return (darray);
+	TokenArray[idx] = NULL; /*SIXTH FREE*/
+	return (TokenArray);
 }

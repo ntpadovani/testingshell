@@ -3,32 +3,34 @@
 /**
  *chkcmddir - A function that concatinates two strings and checks if
  *            the commands are inside the given directory.
- *@strone: Contains the directory to be concatinated with the command.
- *@strtwo: Contains the command to be concatinated with the directory.
+ *@dirpath: Contains the directory to be concatinated with the command.
+ *@cmdinput: Contains the command to be concatinated with the directory.
  *
  *Return: A string with the concatinated dir and command."
  */
 
-char *chkcmddir(char *strone, char *strtwo)
+char *chkcmddir(char *dirpath, char *cmdinput)
 {
 	int result = 0;
 	int idx = 0;
-	char *constr = NULL, **tokenz = NULL, *slashcon = NULL, *cln = ":", slash[100] = "/";
+	char *concatpathinput = NULL, *concatpathinputcopy = NULL, **tokenzarray = NULL, *slashconcatinput = NULL, *cln = ":", slash[30] = "/";
 	struct stat cmdstr;
 
-	tokenz = separate(strone, cln);
-	slashcon = strcat(slash, strtwo);
-	while (tokenz[idx] != NULL)
+	tokenzarray = separate(dirpath, cln); /*tokenizing the directories path with :, **THIRD MEM ALLOC(TIMES 2)**/
+	slashconcatinput = strcat(slash, cmdinput); /*concatenizing '/' with input*/
+	while (tokenzarray[idx] != NULL)
 	{
-		constr = strcat(tokenz[idx], slashcon);
-		result = stat(constr, &cmdstr);
+		concatpathinput = strcat(tokenzarray[idx], slashconcatinput); /*concatenizing directory paths with input*/
+		result = stat(concatpathinput, &cmdstr); /*verifying that the input executes in the given paths*/
 		if (result == 0)
 		{
-			return (constr);
+			concatpathinputcopy = strdup(concatpathinput); /*duplicating the concatpathinput contents to preserve the original*/
+			arrayfree(tokenzarray);
+			return (concatpathinputcopy);
 		}
 		idx++;
 	}
-	arrayfree(tokenz);
-	tokenz = NULL;
+	arrayfree(tokenzarray); /*EIGHT FREE*/
+	tokenzarray = NULL; /***************/
 	return NULL;
 }

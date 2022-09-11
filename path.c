@@ -10,20 +10,21 @@
 char *_getpath(char **envp)
 {
 	int idx;
-	char **grab = NULL, *grabcopy = NULL;
+	char **grabpath = NULL, *grabpathcopy = NULL;
 
-	for (idx = 0; envp[idx] != NULL ; idx++)
+	for (idx = 0; envp[idx] != NULL ; idx++) /*start the search for PATH word within envp*/
 	{
 		
-		if (strncmp(envp[idx], "PATH", 4) == 0)
+		if (strncmp(envp[idx], "PATH", 4) == 0) /*acknowledging we found the PATH word*/
 		{
-			printf("----------\nThis is ENVP:%s\n----------\n", envp[idx]);
-			grabcopy = strdup(envp[idx]);
-			grab = separate(grabcopy, "=");
-			printf("----------\nThis is GRAB[1]:%s\n---------\n", grab[1]);
-			free(grabcopy);
-			free(grab[0]);
-			return (grab[1]);
+			/*printf("----------\nThis is ENVP:%s\n----------\n", envp[idx]); used for debugin*/
+			grabpathcopy = strdup(envp[idx]); /*duplicating the envp contents to preserve the original*/
+			grabpath = separate(grabpathcopy, "="); /*tokenizing the contents***2ND MEM ALLOC(TIMES 2)**/
+			/*printf("----------\nThis is GRAB[1]:%s\n---------\n", grabpath[1]); used for debugin*/
+			free(grabpathcopy); /*SEVENTH FREE*/
+			grabpathcopy = strdup(grabpath[1]); /*duplicating the grabpath contents to preserve the original*/
+			arrayfree(grabpath);
+			return (grabpathcopy);
 		}
 	
 	}
